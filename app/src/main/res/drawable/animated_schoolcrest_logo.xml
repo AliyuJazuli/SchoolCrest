@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/splash_schoolcrest_logo">
+    <target
+        android:name="shieldLine"
+        android:animation="@animator/shield_line_retrace" />
+    <target
+        android:name="bookLine1"
+        android:animation="@animator/book_line_1_retrace" />
+    <target
+        android:name="bookLine2"
+        android:animation="@animator/book_line_2_retrace" />
+    <target
+        android:name="bookLine3"
+        android:animation="@animator/book_line_3_retrace" />
+    <target
+        android:name="bookLine4"
+        android:animation="@animator/book_line_1_retrace" />
+    <target
+        android:name="bookLine5"
+        android:animation="@animator/book_line_2_retrace" />
+    <target
+        android:name="bookLine6"
+        android:animation="@animator/book_line_3_retrace" />
+</animated-vector>

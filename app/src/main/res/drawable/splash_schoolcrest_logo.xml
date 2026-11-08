@@ -1,0 +1,28 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="1024dp"
+    android:height="1024dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+  <path
+      android:pathData="M128,226L512,48L896,226V558C896,739 778,879 512,974C246,879 128,739 128,558V226Z"
+      android:fillColor="@color/brand_navy"/>
+  <path
+      android:name="shieldLine"
+      android:pathData="M220,282V615C220,660 241,689 282,702L512,797L742,702C783,689 804,660 804,615V282"
+      android:strokeLineJoin="round"
+      android:strokeWidth="28"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/brand_aqua"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M234,282C317,311 414,354 512,432C610,354 707,311 790,282V623C690,601 598,628 512,704C426,628 334,601 234,623V282Z"
+      android:fillColor="#FFFFFFFF"/>
+  <path android:name="bookLine1" android:pathData="M310,408C365,418 416,441 467,477" android:strokeWidth="20" android:fillColor="#00000000" android:strokeColor="@color/brand_aqua" android:strokeLineCap="round"/>
+  <path android:name="bookLine2" android:pathData="M310,472C365,482 416,505 467,541" android:strokeWidth="20" android:fillColor="#00000000" android:strokeColor="@color/brand_aqua" android:strokeLineCap="round"/>
+  <path android:name="bookLine3" android:pathData="M310,536C365,546 416,569 467,605" android:strokeWidth="20" android:fillColor="#00000000" android:strokeColor="@color/brand_aqua" android:strokeLineCap="round"/>
+  <path android:name="bookLine4" android:pathData="M557,477C608,441 659,418 714,408" android:strokeWidth="20" android:fillColor="#00000000" android:strokeColor="@color/brand_aqua" android:strokeLineCap="round"/>
+  <path android:name="bookLine5" android:pathData="M557,541C608,505 659,482 714,472" android:strokeWidth="20" android:fillColor="#00000000" android:strokeColor="@color/brand_aqua" android:strokeLineCap="round"/>
+  <path android:name="bookLine6" android:pathData="M557,605C608,569 659,546 714,536" android:strokeWidth="20" android:fillColor="#00000000" android:strokeColor="@color/brand_aqua" android:strokeLineCap="round"/>
+  <path android:pathData="M510,188H810V320" android:strokeLineJoin="round" android:strokeWidth="24" android:fillColor="#00000000" android:strokeColor="@color/brand_aqua" android:strokeLineCap="round"/>
+  <path android:pathData="M510,188m-34,0a34,34 0,1 1,68 0a34,34 0,1 1,-68 0" android:fillColor="@color/brand_aqua"/>
+</vector>

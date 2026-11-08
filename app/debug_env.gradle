@@ -1,0 +1,6 @@
+tasks.register("debugEnv") {
+    doLast {
+        println "Java Version: " + System.getProperty("java.version")
+        println "Java Home: " + System.getProperty("java.home")
+    }
+}

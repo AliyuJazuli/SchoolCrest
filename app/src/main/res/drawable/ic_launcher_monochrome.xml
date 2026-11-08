@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+  <group android:scaleX="0.6111111"
+      android:scaleY="0.6111111"
+      android:translateX="199.11111"
+      android:translateY="199.11111">
+    <!-- 1. Outer Shield with gap before Inner Shield Line -->
+    <path
+        android:fillType="evenOdd"
+        android:pathData="M128,226L512,48L896,226V558C896,739 778,879 512,974C246,879 128,739 128,558V226ZM192,260L512,100L832,260V545C832,700 728,825 512,910C296,825 192,700 192,545V260Z"
+        android:fillColor="#000000"/>
+    <!-- 2. Inner Shield Line -->
+    <path
+        android:pathData="M220,282V615C220,660 241,689 282,702L512,797L742,702C783,689 804,660 804,615V282"
+        android:strokeLineJoin="round"
+        android:strokeWidth="28"
+        android:fillColor="#00000000"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"/>
+    <!-- 3. Solid Book with Page Lines Cut Out using evenOdd -->
+    <path
+        android:fillType="evenOdd"
+        android:pathData="M234,282C317,311 414,354 512,432C610,354 707,311 790,282V623C690,601 598,628 512,704C426,628 334,601 234,623V282ZM310,398C365,408 416,431 467,467L467,487C416,451 365,428 310,418Z M310,462C365,472 416,495 467,531L467,551C416,515 365,492 310,482Z M310,526C365,536 416,559 467,595L467,615C416,579 365,556 310,546Z M557,467C608,431 659,408 714,398L714,418C659,428 608,451 557,487Z M557,531C608,495 659,472 714,462L714,482C659,492 608,515 557,551Z M557,595C608,559 659,536 714,526L714,546C659,556 608,579 557,615Z"
+        android:fillColor="#000000"/>
+    <!-- 4. Graduation Cap & Tassel -->
+    <path
+        android:pathData="M510,188H810V320"
+        android:strokeLineJoin="round"
+        android:strokeWidth="24"
+        android:fillColor="#00000000"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M510,188m-34,0a34,34 0,1 1,68 0a34,34 0,1 1,-68 0"
+        android:fillColor="#000000"/>
+  </group>
+</vector>

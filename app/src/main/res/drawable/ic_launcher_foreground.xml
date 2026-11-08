@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+  <group android:scaleX="0.6111111"
+      android:scaleY="0.6111111"
+      android:translateX="199.11111"
+      android:translateY="199.11111">
+    <path
+        android:pathData="M128,226L512,48L896,226V558C896,739 778,879 512,974C246,879 128,739 128,558V226Z"
+        android:fillColor="@color/brand_navy"/>
+    <path
+        android:pathData="M220,282V615C220,660 241,689 282,702L512,797L742,702C783,689 804,660 804,615V282"
+        android:strokeLineJoin="round"
+        android:strokeWidth="28"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/brand_aqua"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M234,282C317,311 414,354 512,432C610,354 707,311 790,282V623C690,601 598,628 512,704C426,628 334,601 234,623V282Z"
+        android:fillColor="#FFFFFFFF"/>
+    <path
+        android:pathData="M310,408C365,418 416,441 467,477"
+        android:strokeWidth="20"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/brand_aqua"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M310,472C365,482 416,505 467,541"
+        android:strokeWidth="20"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/brand_aqua"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M310,536C365,546 416,569 467,605"
+        android:strokeWidth="20"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/brand_aqua"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M557,477C608,441 659,418 714,408"
+        android:strokeWidth="20"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/brand_aqua"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M557,541C608,505 659,482 714,472"
+        android:strokeWidth="20"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/brand_aqua"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M557,605C608,569 659,546 714,536"
+        android:strokeWidth="20"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/brand_aqua"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M510,188H810V320"
+        android:strokeLineJoin="round"
+        android:strokeWidth="24"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/brand_aqua"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M510,188m-34,0a34,34 0,1 1,68 0a34,34 0,1 1,-68 0"
+        android:fillColor="@color/brand_aqua"/>
+  </group>
+</vector>

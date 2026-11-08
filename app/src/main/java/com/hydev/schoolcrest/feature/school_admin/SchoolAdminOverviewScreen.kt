@@ -101,29 +101,29 @@ fun SchoolAdminOverviewScreen(
 
         DashboardReferenceAttendanceCard()
 
-        DashboardReferenceSection(title = "Quick actions") {
+        DashboardReferenceSection(title = "Quick Actions") {
             DashboardReferenceQuickActions(
                 links = listOf(
                     DashboardLink(
-                        title = "Manage students",
+                        title = "Manage Students",
                         supportingText = "Manage student records",
                         icon = Icons.Default.Groups,
                         onClick = { onNavigate("sa_students") }
                     ),
                     DashboardLink(
-                        title = "View classes",
+                        title = "View Classes",
                         supportingText = "Open class groups",
                         icon = Icons.Default.Class,
                         onClick = { onNavigate("sa_classes") }
                     ),
                     DashboardLink(
-                        title = "Manage results",
+                        title = "Manage Results",
                         supportingText = "Open academic records",
                         icon = Icons.Default.Grade,
                         onClick = { onNavigate("sa_academics") }
                     ),
                     DashboardLink(
-                        title = "School settings",
+                        title = "School Settings",
                         supportingText = "Manage school profile",
                         icon = Icons.Default.Settings,
                         onClick = { onNavigate("sa_profile") }
@@ -133,13 +133,13 @@ fun SchoolAdminOverviewScreen(
         }
 
         DashboardReferenceSection(
-            title = "Recent activity",
+            title = "Recent Activity",
             actionText = "See all",
             onAction = { onNavigate("sa_audit_logs") }
         ) {
             DashboardReferenceInfoCard(
-                title = if (pendingTeachers.isEmpty()) "Staff profile updated" else "Staff request received",
-                description = if (pendingTeachers.isEmpty()) "Your school records are up to date" else "A teacher authorization needs review",
+                title = "Staff request approved",
+                description = "Mr. Ibrahim Musa – Mathematics Teacher",
                 trailingText = "2h ago",
                 leadingIcon = Icons.Default.EventAvailable
             )

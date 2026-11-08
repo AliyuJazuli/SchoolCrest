@@ -337,100 +337,245 @@ private fun DashboardHeroArtworkLayer(
     artwork: DashboardHeroArtwork,
     modifier: Modifier = Modifier
 ) {
-    val tint = Color(0xFF65CFD0).copy(alpha = 0.22f)
-    val detail = Color(0xFFD7FFFF).copy(alpha = 0.32f)
     Canvas(modifier = modifier) {
         when (artwork) {
             DashboardHeroArtwork.CAMPUS,
             DashboardHeroArtwork.PLATFORM -> {
+                // Background Halos
                 drawCircle(
-                    color = tint.copy(alpha = 0.55f),
-                    radius = size.height * 0.70f,
-                    center = Offset(size.width * 0.76f, size.height * 0.30f)
+                    color = Color(0xFF26A69A).copy(alpha = 0.25f),
+                    radius = size.height * 0.72f,
+                    center = Offset(size.width * 0.75f, size.height * 0.35f)
                 )
                 drawCircle(
-                    color = tint.copy(alpha = 0.26f),
-                    radius = size.height * 0.49f,
-                    center = Offset(size.width * 0.98f, size.height * 0.22f)
+                    color = Color(0xFF80CBC4).copy(alpha = 0.15f),
+                    radius = size.height * 0.50f,
+                    center = Offset(size.width * 0.85f, size.height * 0.25f)
                 )
+
+                // Trees / Greenery Silhouettes
+                drawCircle(
+                    color = Color(0xFF004D40).copy(alpha = 0.6f),
+                    radius = size.height * 0.25f,
+                    center = Offset(size.width * 0.22f, size.height * 0.75f)
+                )
+                drawCircle(
+                    color = Color(0xFF004D40).copy(alpha = 0.6f),
+                    radius = size.height * 0.28f,
+                    center = Offset(size.width * 0.95f, size.height * 0.72f)
+                )
+
+                // Main Building Body
+                val bLeft = size.width * 0.28f
+                val bWidth = size.width * 0.62f
+                val bTop = size.height * 0.40f
+                val bHeight = size.height * 0.48f
+
                 drawRoundRect(
-                    color = tint.copy(alpha = 0.82f),
-                    topLeft = Offset(size.width * 0.27f, size.height * 0.39f),
-                    size = Size(size.width * 0.61f, size.height * 0.48f),
-                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(3.dp.toPx())
+                    color = Color(0xFF26A69A).copy(alpha = 0.45f),
+                    topLeft = Offset(bLeft, bTop),
+                    size = Size(bWidth, bHeight),
+                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(4.dp.toPx())
                 )
-                val roof = Path().apply {
-                    moveTo(size.width * 0.18f, size.height * 0.41f)
-                    lineTo(size.width * 0.58f, size.height * 0.13f)
-                    lineTo(size.width * 0.98f, size.height * 0.41f)
+
+                // Central Clock Tower
+                val tLeft = size.width * 0.50f
+                val tWidth = size.width * 0.18f
+                val tTop = size.height * 0.22f
+                val tHeight = size.height * 0.22f
+
+                drawRoundRect(
+                    color = Color(0xFF26A69A).copy(alpha = 0.55f),
+                    topLeft = Offset(tLeft, tTop),
+                    size = Size(tWidth, tHeight),
+                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(2.dp.toPx())
+                )
+
+                // Spire / Triangular Roof
+                val spire = Path().apply {
+                    moveTo(tLeft - size.width * 0.02f, tTop)
+                    lineTo(tLeft + tWidth / 2f, size.height * 0.08f)
+                    lineTo(tLeft + tWidth + size.width * 0.02f, tTop)
                     close()
                 }
-                drawPath(roof, tint.copy(alpha = 0.9f))
-                for (column in 0..3) {
+                drawPath(spire, Color(0xFF80CBC4).copy(alpha = 0.65f))
+
+                // Pediment
+                val mainRoof = Path().apply {
+                    moveTo(bLeft - size.width * 0.03f, bTop)
+                    lineTo(bLeft + bWidth / 2f, bTop - size.height * 0.12f)
+                    lineTo(bLeft + bWidth + size.width * 0.03f, bTop)
+                    close()
+                }
+                drawPath(mainRoof, Color(0xFF80CBC4).copy(alpha = 0.50f))
+
+                // Clock Circle
+                drawCircle(
+                    color = Color(0xFFE0F2F1).copy(alpha = 0.7f),
+                    radius = size.height * 0.045f,
+                    center = Offset(tLeft + tWidth / 2f, tTop + tHeight * 0.45f)
+                )
+
+                // Window Grid
+                val windowColor = Color(0xFFE0F2F1).copy(alpha = 0.65f)
+                for (col in 0..3) {
                     for (row in 0..1) {
                         drawRoundRect(
-                            color = detail,
+                            color = windowColor,
                             topLeft = Offset(
-                                size.width * (0.36f + column * 0.13f),
-                                size.height * (0.51f + row * 0.15f)
+                                bLeft + size.width * (0.06f + col * 0.14f),
+                                bTop + size.height * (0.12f + row * 0.20f)
                             ),
-                            size = Size(size.width * 0.055f, size.height * 0.085f),
+                            size = Size(size.width * 0.06f, size.height * 0.11f),
                             cornerRadius = androidx.compose.ui.geometry.CornerRadius(1.dp.toPx())
                         )
                     }
                 }
-                drawRect(
-                    color = detail.copy(alpha = 0.48f),
-                    topLeft = Offset(size.width * 0.54f, size.height * 0.72f),
-                    size = Size(size.width * 0.11f, size.height * 0.15f)
+
+                // Entrance Portal
+                drawRoundRect(
+                    color = Color(0xFFE0F2F1).copy(alpha = 0.8f),
+                    topLeft = Offset(tLeft + size.width * 0.035f, bTop + bHeight * 0.55f),
+                    size = Size(size.width * 0.11f, bHeight * 0.45f),
+                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(3.dp.toPx())
                 )
             }
 
             DashboardHeroArtwork.BOOKS -> {
-                drawCircle(tint.copy(alpha = .54f), size.height * .64f, Offset(size.width * .82f, size.height * .15f))
-                drawCircle(tint.copy(alpha = .30f), size.height * .49f, Offset(size.width * .48f, size.height * .08f))
-                val left = size.width * 0.38f
-                listOf(0.52f, 0.67f, 0.82f).forEachIndexed { index, y ->
-                    drawRoundRect(
-                        color = tint.copy(alpha = 0.92f - index * 0.12f),
-                        topLeft = Offset(left + index * 4.dp.toPx(), size.height * y),
-                        size = Size(size.width * 0.46f, size.height * 0.12f),
-                        cornerRadius = androidx.compose.ui.geometry.CornerRadius(3.dp.toPx())
-                    )
-                }
+                // Background Halos
+                drawCircle(
+                    color = Color(0xFF26A69A).copy(alpha = 0.28f),
+                    radius = size.height * 0.65f,
+                    center = Offset(size.width * 0.72f, size.height * 0.30f)
+                )
+
+                // Pencil Cup Holder
+                val cupLeft = size.width * 0.72f
+                val cupTop = size.height * 0.42f
+                val cupWidth = size.width * 0.20f
+                val cupHeight = size.height * 0.38f
+
                 drawRoundRect(
-                    color = detail.copy(alpha = .72f),
-                    topLeft = Offset(size.width * 0.76f, size.height * 0.13f),
-                    size = Size(4.dp.toPx(), size.height * 0.34f),
-                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(2.dp.toPx())
+                    color = Color(0xFF26A69A).copy(alpha = 0.50f),
+                    topLeft = Offset(cupLeft, cupTop),
+                    size = Size(cupWidth, cupHeight),
+                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(4.dp.toPx())
+                )
+
+                // Pencils in cup
+                val pencil1 = Path().apply {
+                    moveTo(cupLeft + size.width * 0.03f, cupTop)
+                    lineTo(cupLeft + size.width * 0.05f, size.height * 0.15f)
+                    lineTo(cupLeft + size.width * 0.08f, size.height * 0.18f)
+                    lineTo(cupLeft + size.width * 0.07f, cupTop)
+                    close()
+                }
+                drawPath(pencil1, Color(0xFFFFCA28).copy(alpha = 0.85f))
+
+                val pencil2 = Path().apply {
+                    moveTo(cupLeft + size.width * 0.10f, cupTop)
+                    lineTo(cupLeft + size.width * 0.12f, size.height * 0.10f)
+                    lineTo(cupLeft + size.width * 0.15f, size.height * 0.13f)
+                    lineTo(cupLeft + size.width * 0.14f, cupTop)
+                    close()
+                }
+                drawPath(pencil2, Color(0xFF80CBC4).copy(alpha = 0.90f))
+
+                // Stacked Textbooks
+                val bookLeft = size.width * 0.22f
+                val bookWidth = size.width * 0.48f
+
+                // Bottom Book
+                drawRoundRect(
+                    color = Color(0xFF26A69A).copy(alpha = 0.65f),
+                    topLeft = Offset(bookLeft, size.height * 0.68f),
+                    size = Size(bookWidth, size.height * 0.14f),
+                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(4.dp.toPx())
+                )
+                drawRect(
+                    color = Color(0xFFE0F2F1).copy(alpha = 0.7f),
+                    topLeft = Offset(bookLeft + bookWidth * 0.15f, size.height * 0.70f),
+                    size = Size(bookWidth * 0.80f, size.height * 0.10f)
+                )
+
+                // Middle Book
+                drawRoundRect(
+                    color = Color(0xFF80CBC4).copy(alpha = 0.75f),
+                    topLeft = Offset(bookLeft + size.width * 0.03f, size.height * 0.52f),
+                    size = Size(bookWidth * 0.92f, size.height * 0.13f),
+                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(4.dp.toPx())
+                )
+
+                // Top Open Book
+                drawRoundRect(
+                    color = Color(0xFFE0F2F1).copy(alpha = 0.85f),
+                    topLeft = Offset(bookLeft + size.width * 0.06f, size.height * 0.38f),
+                    size = Size(bookWidth * 0.85f, size.height * 0.12f),
+                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(3.dp.toPx())
                 )
             }
 
             DashboardHeroArtwork.FAMILY -> {
+                // Background Halo
                 drawCircle(
-                    color = tint.copy(alpha = 0.56f),
-                    radius = size.height * 0.62f,
-                    center = Offset(size.width * 0.76f, size.height * 0.25f)
+                    color = Color(0xFF26A69A).copy(alpha = 0.28f),
+                    radius = size.height * 0.65f,
+                    center = Offset(size.width * 0.75f, size.height * 0.32f)
                 )
+
+                // Graduation Cap (Mortarboard Diamond)
+                val capCenter = Offset(size.width * 0.75f, size.height * 0.28f)
+                val capWidth = size.width * 0.40f
+                val capHeight = size.height * 0.18f
+
+                val capDiamond = Path().apply {
+                    moveTo(capCenter.x, capCenter.y - capHeight / 2f)
+                    lineTo(capCenter.x + capWidth / 2f, capCenter.y)
+                    lineTo(capCenter.x, capCenter.y + capHeight / 2f)
+                    lineTo(capCenter.x - capWidth / 2f, capCenter.y)
+                    close()
+                }
+                drawPath(capDiamond, Color(0xFF80CBC4).copy(alpha = 0.85f))
+
+                // Cap Band
+                val capBand = Path().apply {
+                    moveTo(capCenter.x - capWidth * 0.25f, capCenter.y)
+                    lineTo(capCenter.x + capWidth * 0.25f, capCenter.y)
+                    lineTo(capCenter.x + capWidth * 0.20f, capCenter.y + capHeight * 0.75f)
+                    lineTo(capCenter.x - capWidth * 0.20f, capCenter.y + capHeight * 0.75f)
+                    close()
+                }
+                drawPath(capBand, Color(0xFF26A69A).copy(alpha = 0.90f))
+
+                // Tassel
+                val tassel = Path().apply {
+                    moveTo(capCenter.x, capCenter.y)
+                    lineTo(capCenter.x + capWidth * 0.35f, capCenter.y + capHeight * 0.40f)
+                    lineTo(capCenter.x + capWidth * 0.37f, capCenter.y + capHeight * 1.20f)
+                }
+                drawPath(tassel, Color(0xFFFFCA28).copy(alpha = 0.90f), style = Stroke(width = 2.dp.toPx()))
                 drawCircle(
-                    color = tint.copy(alpha = .80f),
-                    radius = size.height * 0.18f,
-                    center = Offset(size.width * 0.73f, size.height * 0.38f)
+                    color = Color(0xFFFFCA28).copy(alpha = 0.95f),
+                    radius = 3.dp.toPx(),
+                    center = Offset(capCenter.x + capWidth * 0.37f, capCenter.y + capHeight * 1.20f)
                 )
+
+                // Scroll Ribbon
+                val scrollLeft = size.width * 0.50f
+                val scrollTop = size.height * 0.65f
+                val scrollWidth = size.width * 0.35f
+                val scrollHeight = size.height * 0.12f
+
                 drawRoundRect(
-                    color = tint.copy(alpha = .80f),
-                    topLeft = Offset(size.width * 0.55f, size.height * 0.56f),
-                    size = Size(size.width * 0.37f, size.height * 0.32f),
-                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(size.height * 0.16f)
+                    color = Color(0xFFE0F2F1).copy(alpha = 0.80f),
+                    topLeft = Offset(scrollLeft, scrollTop),
+                    size = Size(scrollWidth, scrollHeight),
+                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(scrollWidth * 0.20f)
                 )
-                drawPath(
-                    Path().apply {
-                        moveTo(size.width * 0.45f, size.height * 0.5f)
-                        lineTo(size.width * 0.72f, size.height * 0.28f)
-                        lineTo(size.width, size.height * 0.5f)
-                    },
-                    color = detail.copy(alpha = .62f),
-                    style = Stroke(width = 2.dp.toPx())
+                drawRect(
+                    color = Color(0xFFFFCA28).copy(alpha = 0.85f),
+                    topLeft = Offset(scrollLeft + scrollWidth * 0.42f, scrollTop),
+                    size = Size(scrollWidth * 0.16f, scrollHeight)
                 )
             }
         }

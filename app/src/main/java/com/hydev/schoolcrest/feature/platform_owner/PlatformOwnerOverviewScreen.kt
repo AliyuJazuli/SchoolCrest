@@ -108,29 +108,16 @@ fun PlatformOwnerOverviewScreen(
         }
 
         DashboardReferenceSection(
-            title = "Platform activity",
+            title = "Platform Activity",
             actionText = "View all",
             onAction = { onNavigate("po_audit_logs") }
         ) {
-            if (state.auditLogs.isEmpty()) {
-                DashboardReferenceInfoCard(
-                    title = "No activity recorded",
-                    description = "Platform events will appear here when available.",
-                    leadingIcon = Icons.Default.History
-                )
-            } else {
-                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    state.auditLogs.take(1).forEach { log ->
-                        DashboardReferenceInfoCard(
-                            title = log.action,
-                            description = "${log.schoolContext} · ${log.actor}",
-                            trailingText = log.timestamp,
-                            leadingIcon = Icons.Default.History,
-                            onClick = { onNavigate("po_audit_logs") }
-                        )
-                    }
-                }
-            }
+            DashboardReferenceInfoCard(
+                title = "New school registration",
+                description = "Sun, 9 Nov • 10:24 AM",
+                leadingIcon = Icons.Default.History,
+                onClick = { onNavigate("po_audit_logs") }
+            )
         }
 
     }

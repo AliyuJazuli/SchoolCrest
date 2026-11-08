@@ -28,6 +28,9 @@ import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.hydev.schoolcrest.core.model.UserRole
 
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.MoreHoriz
+
 data class NavItem(
     val title: String,
     val route: String,
@@ -40,31 +43,33 @@ object RoleNavigationProvider {
     fun getBottomNavItems(role: UserRole): List<NavItem> {
         return when (role) {
             UserRole.PLATFORM_OWNER -> listOf(
-                NavItem("Overview", "po_overview", Icons.Default.Dashboard),
+                NavItem("Home", "po_overview", Icons.Default.Home),
+                NavItem("Analytics", "po_analytics", Icons.Default.Analytics),
                 NavItem("Schools", "po_schools", Icons.Default.School),
-                NavItem("Verify", "po_verification", Icons.Default.Verified),
                 NavItem("Users", "po_users", Icons.Default.People),
+                NavItem("More", "po_more", Icons.Default.MoreHoriz)
             )
 
             UserRole.SCHOOL_ADMIN -> listOf(
-                NavItem("Dashboard", "sa_dashboard", Icons.Default.Dashboard),
-                NavItem("Students", "sa_students", Icons.Default.PersonSearch),
-                NavItem("Teachers", "sa_teachers", Icons.Default.CoPresent),
-                NavItem("Classes", "sa_classes", Icons.Default.Class)
+                NavItem("Home", "sa_dashboard", Icons.Default.Home),
+                NavItem("Students", "sa_students", Icons.Default.People),
+                NavItem("Results", "sa_academics", Icons.Default.Grade),
+                NavItem("More", "sa_more", Icons.Default.MoreHoriz)
             )
 
             UserRole.TEACHER -> listOf(
-                NavItem("Dashboard", "t_dashboard", Icons.Default.Dashboard),
+                NavItem("Home", "t_dashboard", Icons.Default.Home),
                 NavItem("Classes", "t_my_classes", Icons.Default.Class),
-                NavItem("Attend", "t_attendance", Icons.Default.EventAvailable),
-                NavItem("Results", "t_academics", Icons.Default.Grade)
+                NavItem("Attendance", "t_attendance", Icons.Default.EventAvailable),
+                NavItem("More", "t_more", Icons.Default.MoreHoriz)
             )
 
             UserRole.PARENT -> listOf(
-                NavItem("Dashboard", "p_dashboard", Icons.Default.Dashboard),
-                NavItem("Children", "p_children", Icons.Default.ChildCare),
-                NavItem("Attend", "p_attendance", Icons.Default.EventAvailable),
-                NavItem("Results", "p_results", Icons.Default.Grade)
+                NavItem("Home", "p_dashboard", Icons.Default.Home),
+                NavItem("Child", "p_children", Icons.Default.ChildCare),
+                NavItem("Results", "p_results", Icons.Default.Grade),
+                NavItem("Updates", "p_announcements", Icons.Default.Notifications),
+                NavItem("More", "p_more", Icons.Default.MoreHoriz)
             )
         }
     }

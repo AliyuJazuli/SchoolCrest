@@ -118,13 +118,13 @@ private fun ParentContent(route: String, onNavigate: (String) -> Unit) {
                 )
             }
             DashboardReferenceSection(
-                title = "Recent updates",
+                title = "Recent Updates",
                 actionText = "View all",
                 onAction = { onNavigate("p_announcements") }
             ) {
                 DashboardReferenceInfoCard(
                     title = "Mathematics result published",
-                    description = "Sat, 8 Nov · 5:20 PM",
+                    description = "Sat, 8 Nov • 5:20 PM",
                     trailingText = "›",
                     leadingIcon = Icons.Default.Grade
                 )

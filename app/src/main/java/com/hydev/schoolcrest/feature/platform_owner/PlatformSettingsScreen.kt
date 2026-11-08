@@ -49,7 +49,7 @@ fun PlatformSettingsScreen(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp),
+            .padding(start = 16.dp, end = 16.dp, top = 96.dp, bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         AppCard(

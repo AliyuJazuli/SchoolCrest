@@ -47,7 +47,7 @@ fun AuditLogsScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 96.dp, bottom = 16.dp)
     ) {
         OutlinedTextField(
             value = state.auditSearchQuery,

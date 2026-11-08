@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -50,6 +51,7 @@ fun StudentManagementScreen(
     var classInput by remember { mutableStateOf("") }
     var parentNameInput by remember { mutableStateOf("") }
     var parentPhoneInput by remember { mutableStateOf("") }
+    val studentListState = rememberLazyListState()
 
     val filteredStudents = state.students.filter { student ->
         student.fullName.contains(state.studentSearchQuery, ignoreCase = true) ||
@@ -60,7 +62,11 @@ fun StudentManagementScreen(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         floatingActionButton = {
-            AppFloatingActionButton(onClick = { onShowEnrollDialog(true) }) {
+            AppFloatingActionButton(
+                onClick = { onShowEnrollDialog(true) },
+                text = "Enroll student",
+                expanded = !studentListState.isScrollInProgress
+            ) {
                 Icon(Icons.Default.Add, contentDescription = "Enroll Student")
             }
         }
@@ -69,7 +75,7 @@ fun StudentManagementScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(16.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 60.dp, bottom = 16.dp)
         ) {
             OutlinedTextField(
                 value = state.studentSearchQuery,
@@ -77,7 +83,8 @@ fun StudentManagementScreen(
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text("Search students by name, class, or parent phone...") },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                singleLine = true,
+                singleLine = false,
+                maxLines = 2,
                 shape = RoundedCornerShape(12.dp)
             )
 
@@ -98,6 +105,7 @@ fun StudentManagementScreen(
                 )
             } else {
                 LazyColumn(
+                    state = studentListState,
                     contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.weight(1f)

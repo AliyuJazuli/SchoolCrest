@@ -54,7 +54,7 @@ fun TeacherManagementScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 96.dp, bottom = 16.dp)
     ) {
         // Search & Filter
         OutlinedTextField(

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -47,11 +48,16 @@ fun ClassManagementScreen(
     var classNameInput by remember { mutableStateOf("") }
     var classTeacherInput by remember { mutableStateOf("") }
     var subjectsInput by remember { mutableStateOf("") }
+    val classListState = rememberLazyListState()
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
         floatingActionButton = {
-            AppFloatingActionButton(onClick = { onShowCreateDialog(true) }) {
+            AppFloatingActionButton(
+                onClick = { onShowCreateDialog(true) },
+                text = "Create class",
+                expanded = !classListState.isScrollInProgress
+            ) {
                 Icon(Icons.Default.Add, contentDescription = "Create Class")
             }
         }
@@ -60,7 +66,7 @@ fun ClassManagementScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(16.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 60.dp, bottom = 16.dp)
         ) {
             Text(
                 text = "School Classes (${state.classes.size})",
@@ -77,6 +83,7 @@ fun ClassManagementScreen(
                 )
             } else {
                 LazyColumn(
+                    state = classListState,
                     contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.weight(1f)

@@ -47,13 +47,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -103,8 +104,10 @@ fun RoleDashboardShell(
     val bottomItems = RoleNavigationProvider.getBottomNavItems(role)
     val drawerItems = RoleNavigationProvider.getDrawerItems(role)
 
-    var selectedNavItem by remember { mutableStateOf(bottomItems.first()) }
-    val selectedBottomItem = bottomItems.firstOrNull { it.route == selectedNavItem.route }
+    var selectedNavRoute by rememberSaveable(role.roleKey) {
+        mutableStateOf(bottomItems.first().route)
+    }
+    val selectedBottomItem = bottomItems.firstOrNull { it.route == selectedNavRoute }
         ?: bottomItems.first()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -131,7 +134,19 @@ fun RoleDashboardShell(
                             .padding(14.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        AnimatedSchoolCrestLogo(size = 48.dp, isAnimated = true)
+                        Surface(
+                            modifier = Modifier.size(48.dp),
+                            shape = RoundedCornerShape(14.dp),
+                            color = if (MaterialTheme.colorScheme.background.luminance() < 0.5f) {
+                                Color.White
+                            } else {
+                                MaterialTheme.colorScheme.primaryContainer
+                            }
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                AnimatedSchoolCrestLogo(size = 40.dp, isAnimated = true)
+                            }
+                        }
                         Spacer(modifier = Modifier.width(14.dp))
                         Column {
                             Text(
@@ -155,13 +170,13 @@ fun RoleDashboardShell(
                     )
 
                     bottomItems.forEach { item ->
-                        val isSelected = selectedNavItem.route == item.route
+                        val isSelected = selectedNavRoute == item.route
                         NavigationDrawerItem(
                             icon = { Icon(item.icon, contentDescription = item.title, tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant) },
                             label = { Text(item.title, fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium) },
                             selected = isSelected,
                             onClick = {
-                                selectedNavItem = item
+                                selectedNavRoute = item.route
                                 scope.launch { drawerState.close() }
                             },
                             shape = RoundedCornerShape(16.dp),
@@ -185,13 +200,13 @@ fun RoleDashboardShell(
                     )
 
                     drawerItems.forEach { item ->
-                        val isSelected = selectedNavItem.route == item.route
+                        val isSelected = selectedNavRoute == item.route
                         NavigationDrawerItem(
                             icon = { Icon(item.icon, contentDescription = item.title, tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant) },
                             label = { Text(item.title, fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium) },
                             selected = isSelected,
                             onClick = {
-                                selectedNavItem = item
+                                selectedNavRoute = item.route
                                 scope.launch { drawerState.close() }
                             },
                             shape = RoundedCornerShape(16.dp),
@@ -225,13 +240,14 @@ fun RoleDashboardShell(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
                         ) {
                             FilterChip(
+                                modifier = Modifier.weight(1f),
                                 selected = currentThemeMode == AppThemeMode.SYSTEM_DEFAULT,
                                 onClick = { ThemeState.setThemeMode(AppThemeMode.SYSTEM_DEFAULT) },
-                                label = { Text("System", style = MaterialTheme.typography.labelSmall) },
-                                leadingIcon = { Icon(Icons.Default.BrightnessAuto, contentDescription = null, modifier = Modifier.size(14.dp)) },
+                                label = { Text("System", style = MaterialTheme.typography.labelSmall, maxLines = 1) },
+                                leadingIcon = { Icon(Icons.Default.BrightnessAuto, contentDescription = null, modifier = Modifier.size(12.dp)) },
                                 shape = RoundedCornerShape(10.dp),
                                 colors = FilterChipDefaults.filterChipColors(
                                     selectedContainerColor = MaterialTheme.colorScheme.primary,
@@ -239,10 +255,11 @@ fun RoleDashboardShell(
                                 )
                             )
                             FilterChip(
+                                modifier = Modifier.weight(1f),
                                 selected = currentThemeMode == AppThemeMode.LIGHT,
                                 onClick = { ThemeState.setThemeMode(AppThemeMode.LIGHT) },
-                                label = { Text("Light", style = MaterialTheme.typography.labelSmall) },
-                                leadingIcon = { Icon(Icons.Default.LightMode, contentDescription = null, modifier = Modifier.size(14.dp)) },
+                                label = { Text("Light", style = MaterialTheme.typography.labelSmall, maxLines = 1) },
+                                leadingIcon = { Icon(Icons.Default.LightMode, contentDescription = null, modifier = Modifier.size(12.dp)) },
                                 shape = RoundedCornerShape(10.dp),
                                 colors = FilterChipDefaults.filterChipColors(
                                     selectedContainerColor = MaterialTheme.colorScheme.primary,
@@ -250,10 +267,11 @@ fun RoleDashboardShell(
                                 )
                             )
                             FilterChip(
+                                modifier = Modifier.weight(1f),
                                 selected = currentThemeMode == AppThemeMode.DARK,
                                 onClick = { ThemeState.setThemeMode(AppThemeMode.DARK) },
-                                label = { Text("Dark", style = MaterialTheme.typography.labelSmall) },
-                                leadingIcon = { Icon(Icons.Default.DarkMode, contentDescription = null, modifier = Modifier.size(14.dp)) },
+                                label = { Text("Dark", style = MaterialTheme.typography.labelSmall, maxLines = 1) },
+                                leadingIcon = { Icon(Icons.Default.DarkMode, contentDescription = null, modifier = Modifier.size(12.dp)) },
                                 shape = RoundedCornerShape(10.dp),
                                 colors = FilterChipDefaults.filterChipColors(
                                     selectedContainerColor = MaterialTheme.colorScheme.primary,
@@ -297,12 +315,12 @@ fun RoleDashboardShell(
                         .padding(innerPadding)
                 ) {
                     customContent(
-                        selectedNavItem.route,
+                        selectedNavRoute,
                         { scope.launch { drawerState.open() } },
                         { route ->
                             (bottomItems + drawerItems)
                                 .firstOrNull { it.route == route }
-                                ?.let { selectedNavItem = it }
+                                ?.let { selectedNavRoute = it.route }
                         }
                     )
                 }
@@ -351,7 +369,7 @@ fun RoleDashboardShell(
                                 UserRole.PARENT -> "p_notifications"
                             }
                             drawerItems.firstOrNull { it.route == destination }?.let {
-                                selectedNavItem = it
+                                selectedNavRoute = it.route
                             }
                         },
                         modifier = Modifier.size(48.dp)
@@ -371,7 +389,7 @@ fun RoleDashboardShell(
                                 UserRole.PARENT -> "p_profile"
                             }
                             drawerItems.firstOrNull { it.route == destination }?.let {
-                                selectedNavItem = it
+                                selectedNavRoute = it.route
                             }
                         },
                         modifier = Modifier.size(48.dp)
@@ -388,7 +406,7 @@ fun RoleDashboardShell(
             AppBottomNavigationBar(
                 items = bottomItems,
                 selectedItem = selectedBottomItem,
-                onItemSelected = { selectedNavItem = it },
+                onItemSelected = { selectedNavRoute = it.route },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .navigationBarsPadding()

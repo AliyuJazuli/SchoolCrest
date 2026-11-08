@@ -56,7 +56,7 @@ fun SchoolsManagementScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 96.dp)
     ) {
         OutlinedTextField(
             value = state.schoolSearchQuery,

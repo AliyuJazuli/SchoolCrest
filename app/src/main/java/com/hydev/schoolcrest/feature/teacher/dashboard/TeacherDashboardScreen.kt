@@ -1,23 +1,38 @@
 package com.hydev.schoolcrest.feature.teacher.dashboard
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.filled.EventAvailable
+import androidx.compose.material.icons.filled.Grade
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.hydev.schoolcrest.core.model.UserRole
-import com.hydev.schoolcrest.core.ui.components.DashboardActionCard
-import com.hydev.schoolcrest.core.ui.components.DashboardEmptyCard
-import com.hydev.schoolcrest.core.ui.components.DashboardHero
+import com.hydev.schoolcrest.core.ui.components.DashboardActionList
+import com.hydev.schoolcrest.core.ui.components.DashboardAdaptiveColumns
+import com.hydev.schoolcrest.core.ui.components.DashboardDataNotice
+import com.hydev.schoolcrest.core.ui.components.DashboardLink
 import com.hydev.schoolcrest.core.ui.components.DashboardPage
+import com.hydev.schoolcrest.core.ui.components.DashboardPageHeader
 import com.hydev.schoolcrest.core.ui.components.DashboardSection
+import com.hydev.schoolcrest.core.ui.components.DashboardHeroSupportingTextColor
 import com.hydev.schoolcrest.core.ui.components.RoleDashboardShell
-import com.hydev.schoolcrest.core.ui.components.TeacherDashboardCard
+import com.hydev.schoolcrest.core.ui.components.DashboardHeroArtwork
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceActionButton
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceClassOverviewCard
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceGreeting
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceHeroCard
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceHeroPill
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceInfoCard
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceMetricStrip
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceTeacherDayMetrics
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceSection
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceSummaryCards
+import com.hydev.schoolcrest.core.ui.components.DashboardMetric
 
 @Composable
 fun TeacherDashboardScreen(navController: NavController, modifier: Modifier = Modifier) {
@@ -32,72 +47,123 @@ fun TeacherDashboardScreen(navController: NavController, modifier: Modifier = Mo
 
 @Composable
 private fun TeacherContent(route: String, onNavigate: (String) -> Unit) {
-    val isOverview = route == "t_dashboard"
     val title = when (route) {
-        "t_dashboard" -> "Your teaching hub"
+        "t_dashboard" -> "Teaching workspace"
         "t_my_classes" -> "Your classes"
         "t_attendance" -> "Attendance"
-        "t_assignments" -> "Assignments to review"
+        "t_assignments" -> "Assignments"
         else -> "Academic results"
     }
-    val description = when (route) {
-        "t_dashboard" -> "Get to classes, attendance, and the work ahead."
-        "t_my_classes" -> "Open your class list and keep classroom details close."
-        "t_attendance" -> "Track attendance for your assigned classes."
-        "t_assignments" -> "Keep student work and reviews organized."
-        else -> "Follow learning progress and academic results."
-    }
+    val isOverview = route == "t_dashboard"
+    val teachingTools = listOf(
+        DashboardLink(
+            title = "Classes",
+            supportingText = "Open assigned class workspace",
+            icon = Icons.Default.School,
+            onClick = { onNavigate("t_my_classes") }
+        ),
+        DashboardLink(
+            title = "Attendance",
+            supportingText = "Open attendance tools",
+            icon = Icons.Default.EventAvailable,
+            onClick = { onNavigate("t_attendance") }
+        ),
+        DashboardLink(
+            title = "Assignments",
+            supportingText = "Open assignment workspace",
+            icon = Icons.AutoMirrored.Filled.Assignment,
+            onClick = { onNavigate("t_assignments") }
+        ),
+        DashboardLink(
+            title = "Academic results",
+            supportingText = "Open results workspace",
+            icon = Icons.Default.Grade,
+            onClick = { onNavigate("t_academics") }
+        )
+    )
 
     DashboardPage {
         if (isOverview) {
-            TeacherDashboardCard(
-                onOpenClasses = { onNavigate("t_my_classes") },
-                onOpenAttendance = { onNavigate("t_attendance") },
-                onOpenAssignments = { onNavigate("t_assignments") }
+            DashboardReferenceGreeting(
+                title = "Hello, Teacher 👋",
+                supportingText = "Stay on track with your teaching responsibilities."
             )
+            DashboardReferenceHeroCard(artwork = DashboardHeroArtwork.BOOKS) {
+                DashboardReferenceHeroPill("Today, Mon, Nov 10", Icons.Default.EventAvailable)
+                Text(
+                    text = "Your Teaching Day",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                DashboardReferenceTeacherDayMetrics()
+                DashboardReferenceActionButton(
+                    label = "View timetable",
+                    onClick = { onNavigate("t_timetable") }
+                )
+            }
+            DashboardReferenceSummaryCards(
+                metrics = listOf(
+                    DashboardMetric(
+                        title = "Assigned classes",
+                        value = "3",
+                        supportingText = "",
+                        icon = Icons.Default.School
+                    ),
+                    DashboardMetric(
+                        title = "Subjects",
+                        value = "2",
+                        supportingText = "",
+                        icon = Icons.Default.Grade
+                    ),
+                    DashboardMetric(
+                        title = "Attendance",
+                        value = "Today",
+                        supportingText = "Today",
+                        icon = Icons.Default.EventAvailable
+                    )
+                )
+            )
+            DashboardReferenceSection(
+                title = "Class overview",
+                actionText = "View all",
+                onAction = { onNavigate("t_my_classes") }
+            ) {
+                DashboardReferenceClassOverviewCard()
+            }
+            DashboardReferenceSection(
+                title = "Upcoming activities",
+                actionText = "See all",
+                onAction = { onNavigate("t_timetable") }
+            ) {
+                DashboardReferenceInfoCard(
+                    title = "Enter class results",
+                    description = "JSS 1A – Mathematics",
+                    trailingText = "Today, 2:00 PM",
+                    leadingIcon = Icons.Default.EventAvailable
+                )
+            }
         } else {
-            DashboardHero(
+            DashboardPageHeader(
                 eyebrow = "TEACHING WORKSPACE",
                 title = title,
-                description = description,
-                icon = Icons.Default.School,
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                accentColor = MaterialTheme.colorScheme.secondary,
-                accentContentColor = MaterialTheme.colorScheme.onSecondary
+                supportingText = "Teaching information for your assigned classes."
             )
-        }
-
-        if (isOverview) {
-            DashboardSection(title = "Your day") {
-                DashboardEmptyCard(
-                    title = "Your schedule will appear here",
-                    description = "Assigned classes and upcoming lessons will be shown here when available."
-                )
-            }
-        } else {
-            DashboardSection(title = "Workspace") {
-                DashboardEmptyCard(
-                    title = "Your $title will appear here",
-                    description = "This workspace is ready for your teaching information."
-                )
-            }
-            DashboardSection(title = "Continue teaching") {
-                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    DashboardActionCard(
-                        title = "Back to overview",
-                        description = "Return to your teaching dashboard",
-                        icon = Icons.Default.School,
-                        onClick = { onNavigate("t_dashboard") }
-                    )
-                    DashboardActionCard(
-                        title = "Open attendance",
-                        description = "Go to class attendance",
-                        icon = Icons.Default.EventAvailable,
-                        onClick = { onNavigate("t_attendance") }
-                    )
+            DashboardAdaptiveColumns(
+                primary = {
+                    DashboardSection(title = "Workspace status") {
+                        DashboardDataNotice(
+                            title = "Class information is not available",
+                            description = "Assigned classes, timetable, attendance, and academic records are not currently available from the app data source.",
+                            icon = Icons.Default.School
+                        )
+                    }
+                },
+                secondary = {
+                    DashboardSection(title = "Teaching tools") {
+                        DashboardActionList(links = teachingTools)
+                    }
                 }
-            }
+            )
         }
     }
 }

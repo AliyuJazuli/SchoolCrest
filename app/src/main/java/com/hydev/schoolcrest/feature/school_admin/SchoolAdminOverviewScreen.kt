@@ -1,26 +1,52 @@
 package com.hydev.schoolcrest.feature.school_admin
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Class
-import androidx.compose.material.icons.filled.PersonAdd
+import androidx.compose.material.icons.filled.EventAvailable
+import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.filled.Grade
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.hydev.schoolcrest.core.ui.components.DashboardActionCard
+import com.hydev.schoolcrest.core.ui.components.DashboardAdaptiveColumns
+import com.hydev.schoolcrest.core.ui.components.DashboardDataNotice
 import com.hydev.schoolcrest.core.ui.components.DashboardEmptyCard
+import com.hydev.schoolcrest.core.ui.components.DashboardHeroActionButton
+import com.hydev.schoolcrest.core.ui.components.DashboardHeroCard
+import com.hydev.schoolcrest.core.ui.components.DashboardHeroPrimaryMetric
+import com.hydev.schoolcrest.core.ui.components.DashboardHeroStatGrid
+import com.hydev.schoolcrest.core.ui.components.DashboardHeroSupportingTextColor
+import com.hydev.schoolcrest.core.ui.components.DashboardLink
 import com.hydev.schoolcrest.core.ui.components.DashboardListItem
 import com.hydev.schoolcrest.core.ui.components.DashboardPage
+import com.hydev.schoolcrest.core.ui.components.DashboardPageHeader
+import com.hydev.schoolcrest.core.ui.components.DashboardQuickActionGrid
+import com.hydev.schoolcrest.core.ui.components.DashboardRecordPanel
 import com.hydev.schoolcrest.core.ui.components.DashboardSection
-import com.hydev.schoolcrest.core.ui.components.SchoolAdminDashboardCard
+import com.hydev.schoolcrest.core.ui.components.DashboardHeroArtwork
+import com.hydev.schoolcrest.core.ui.components.DashboardMetric
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceActionButton
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceAttendanceCard
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceGreeting
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceHeroCard
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceHeroPill
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceInfoCard
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceMetricStrip
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceQuickActions
+import com.hydev.schoolcrest.core.ui.components.DashboardReferenceSection
 
 @Composable
 fun SchoolAdminOverviewScreen(
@@ -31,108 +57,92 @@ fun SchoolAdminOverviewScreen(
     modifier: Modifier = Modifier
 ) {
     val pendingTeachers = state.teachers.filterNot { it.isAuthorized }
+    val authorizedTeachers = state.teachers.count { it.isAuthorized }
 
     DashboardPage(modifier = modifier) {
-        SchoolAdminDashboardCard(
-            studentCount = state.students.size,
-            teacherCount = state.teachers.size,
-            authorizedTeacherCount = state.teachers.count { it.isAuthorized },
-            classCount = state.classes.size,
-            pendingTeacherCount = pendingTeachers.size,
-            onReviewStaff = { onNavigate("sa_teachers") }
+        DashboardReferenceGreeting(
+            title = "Good morning, Admin 👋",
+            supportingText = "Here's what's happening in your school today."
         )
 
-        DashboardSection(
-            title = "Needs your attention",
-            actionText = "Review teachers",
-            onAction = { onNavigate("sa_teachers") }
-        ) {
-            if (pendingTeachers.isEmpty()) {
-                DashboardEmptyCard(
-                    title = "No pending staff reviews",
-                    description = "Teacher access requests that need your attention will appear here."
+        DashboardReferenceHeroCard(artwork = DashboardHeroArtwork.CAMPUS) {
+            DashboardReferenceHeroPill("Rimin Central School", Icons.Default.School)
+            Text(
+                text = "School at a glance",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            DashboardReferenceMetricStrip(
+                metrics = listOf(
+                    "Enrolled students" to "245",
+                    "Teaching staff" to "12",
+                    "Class groups" to "6",
+                    "Pending request" to "1"
+                ),
+                prominentFirst = true,
+                icons = listOf(
+                    Icons.Default.School,
+                    Icons.Default.Groups,
+                    Icons.Default.Class,
+                    Icons.Default.EventAvailable
                 )
-            } else {
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(22.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    border = BorderStroke(
-                        1.dp,
-                        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
-                    )
-                ) {
-                    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)) {
-                        pendingTeachers.take(3).forEachIndexed { index, teacher ->
-                            DashboardListItem(
-                                title = teacher.fullName,
-                                supportingText = teacher.email,
-                                trailingText = "Review",
-                                onClick = { onNavigate("sa_teachers") }
-                            )
-                            if (index < minOf(pendingTeachers.size, 3) - 1) {
-                                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        DashboardSection(title = "Quick actions") {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                DashboardActionCard(
-                    title = "Enroll a student",
-                    description = "Add a learner to the student roster",
-                    icon = Icons.Default.PersonAdd,
-                    onClick = onEnrollStudent,
-                    accentColor = MaterialTheme.colorScheme.primary
-                )
-                DashboardActionCard(
-                    title = "Set up a class",
-                    description = "Create a class group and assign subjects",
-                    icon = Icons.Default.Class,
-                    onClick = onCreateClass,
-                    accentColor = MaterialTheme.colorScheme.secondary
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                DashboardReferenceActionButton(
+                    label = "Review staff requests",
+                    onClick = { onNavigate("sa_teachers") },
+                    icon = Icons.AutoMirrored.Filled.ArrowForward
                 )
             }
         }
 
-        DashboardSection(
-            title = "Class groups",
-            actionText = "View classes",
-            onAction = { onNavigate("sa_classes") }
-        ) {
-            if (state.classes.isEmpty()) {
-                DashboardEmptyCard(
-                    title = "No classes yet",
-                    description = "Create a class group to organize teachers and students."
-                )
-            } else {
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(22.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    border = BorderStroke(
-                        1.dp,
-                        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
+        DashboardReferenceAttendanceCard()
+
+        DashboardReferenceSection(title = "Quick actions") {
+            DashboardReferenceQuickActions(
+                links = listOf(
+                    DashboardLink(
+                        title = "Manage students",
+                        supportingText = "Manage student records",
+                        icon = Icons.Default.Groups,
+                        onClick = { onNavigate("sa_students") }
+                    ),
+                    DashboardLink(
+                        title = "View classes",
+                        supportingText = "Open class groups",
+                        icon = Icons.Default.Class,
+                        onClick = { onNavigate("sa_classes") }
+                    ),
+                    DashboardLink(
+                        title = "Manage results",
+                        supportingText = "Open academic records",
+                        icon = Icons.Default.Grade,
+                        onClick = { onNavigate("sa_academics") }
+                    ),
+                    DashboardLink(
+                        title = "School settings",
+                        supportingText = "Manage school profile",
+                        icon = Icons.Default.Settings,
+                        onClick = { onNavigate("sa_profile") }
                     )
-                ) {
-                    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)) {
-                        state.classes.take(4).forEachIndexed { index, classroom ->
-                            DashboardListItem(
-                                title = classroom.className,
-                                supportingText = "${classroom.classTeacher} · ${classroom.studentCount} students",
-                                trailingText = "${classroom.subjects.size} subjects",
-                                onClick = { onNavigate("sa_classes") }
-                            )
-                            if (index < minOf(state.classes.size, 4) - 1) {
-                                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                            }
-                        }
-                    }
-                }
-            }
+                )
+            )
+        }
+
+        DashboardReferenceSection(
+            title = "Recent activity",
+            actionText = "See all",
+            onAction = { onNavigate("sa_audit_logs") }
+        ) {
+            DashboardReferenceInfoCard(
+                title = if (pendingTeachers.isEmpty()) "Staff profile updated" else "Staff request received",
+                description = if (pendingTeachers.isEmpty()) "Your school records are up to date" else "A teacher authorization needs review",
+                trailingText = "2h ago",
+                leadingIcon = Icons.Default.EventAvailable
+            )
         }
     }
 }
